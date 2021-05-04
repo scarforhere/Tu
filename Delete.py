@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 """
 -------------------------------------------------
    File Name：     Delete.py
@@ -30,7 +30,7 @@ Description :
 import os
 import shutil
 import json
-from time_record import Time_Monitor
+from time_record import TimeMonitor
 
 g_mode = False
 
@@ -39,7 +39,7 @@ def record_data(path):
     """
     Record source files
     """
-    t = Time_Monitor('Record Time', 25)
+    t = TimeMonitor('Record Time', 25)
 
     file_datasource_path = path
 
@@ -77,7 +77,7 @@ def delete_data(path):
     """
     Delete by program created files
     """
-    t = Time_Monitor('Delete Time', 25)
+    t = TimeMonitor('Delete Time', 25)
 
     file_datasource_path = path
 

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 """
 -------------------------------------------------
    File Name：     time_record
@@ -21,13 +21,20 @@ Description :
 from datetime import datetime
 
 
-class Time_Monitor(object):
+class TimeMonitor(object):
 
     def __init__(self, text='Total Time', num=0):
         self.start = datetime.now()
         self.end = None
         self.text = text
         self.num = num
+
+    def trans(self):
+        self.end = datetime.now()
+        time_obj = self.end - self.start
+        time_str_lst = [f"{self.text}: ".ljust(self.num), f"{time_obj.seconds}s".rjust(5)]
+        time_str = ''.join(time_str_lst)
+        return time_str
 
     def show(self):
         self.end = datetime.now()

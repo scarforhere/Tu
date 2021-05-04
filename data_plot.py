@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 """
 -------------------------------------------------
    File Name：     get_count.py
@@ -13,7 +13,7 @@ Description :
 """
 import matplotlib.pyplot as plt
 import os
-from time_record import Time_Monitor
+from time_record import TimeMonitor
 
 
 def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
@@ -25,7 +25,7 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
     :param data_avg:
     :param path:Path of the file
     """
-    t = Time_Monitor('\tPlot Time', 25)
+    t = TimeMonitor('\tPlot Time', 25)
 
     # 构建图像
     plt.figure(figsize=(18, 6))
@@ -65,4 +65,4 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
 
     plt.savefig(f"{path.replace('.txt', '')}.png")
 
-    t.show()
+    return t.trans()

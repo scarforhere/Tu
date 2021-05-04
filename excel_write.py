@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 """
 -------------------------------------------------
    File Name：     excel_write.py
@@ -13,7 +13,7 @@ Description :
 """
 import pandas as pd
 import os
-from time_record import Time_Monitor
+from time_record import TimeMonitor
 
 
 def excel_write(path: str, data_dict: dict):
@@ -23,7 +23,7 @@ def excel_write(path: str, data_dict: dict):
     :param path: Path of target EXCEL
     :param data_dict: Dict to generate DataFrame
     """
-    t = Time_Monitor('\tGenerate Excel Time', 25)
+    t = TimeMonitor('\tGenerate Excel Time', 25)
 
     # TODO 重新写入表头
     # crate dict{} for DataFrame
@@ -45,4 +45,4 @@ def excel_write(path: str, data_dict: dict):
     excel_path = ''.join(excel_path_list)
     df.to_excel(excel_path, index=False)
 
-    t.show()
+    return t.trans()
