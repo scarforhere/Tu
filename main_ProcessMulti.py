@@ -63,4 +63,4 @@ if __name__ == '__main__':
     except ValueError:
         num = None
 
-    main(path, num)
+    main(g_path, num)
