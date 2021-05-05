@@ -63,4 +63,5 @@ if __name__ == '__main__':
     except ValueError:
         num = None
 
+    # TODO: Set Path of main(target_path, process)
     main(g_path, num)
