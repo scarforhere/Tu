@@ -63,10 +63,10 @@ def readline_format02(data_line):
     :return: None(illegal data) or List of data
     """
     data_line = data_line.replace('\n', '')
-    # 傻逼德语格式换成英语格式
+    # replace ',' with '.'  Fucking Silly German Format
     data_line = data_line.replace(",", ".")
 
-    # 拆分string转化为string列表
+    # split sting with '\t' and convert it to List of substring
     data_list = [0 for _ in range(6)]
     lst = data_line.partition('\t')
     data_list[0] = lst[0]
@@ -74,7 +74,7 @@ def readline_format02(data_line):
         lst = lst[2].partition('\t')
         data_list[i - 1] = lst[0]
 
-    # 将string列表转化为float列表
+    # convert List of substring to List of float number
     for i in range(6):
         data_list[i] = eval(data_list[i])
 

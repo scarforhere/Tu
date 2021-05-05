@@ -25,7 +25,7 @@ def excel_write(path: str, data_dict: dict):
     """
     t = TimeMonitor('\tGenerate Excel Time', 25)
 
-    # TODO 重新写入表头
+    # TODO Rewrite Header of EXCEL
     # crate dict{} for DataFrame
     excel_dict = {'Time [s]': data_dict['s'],
                   'Fx [N]': data_dict['fx'],
@@ -38,7 +38,7 @@ def excel_write(path: str, data_dict: dict):
     # create Dataframe
     df = pd.DataFrame(excel_dict)
 
-    # TODO 将数据写入EXCEL
+    # write data into Excel
     excel_path_split = os.path.split(path)
     excel_path_splitext = os.path.splitext(excel_path_split[1])
     excel_path_list = [excel_path_split[0], '\\', excel_path_splitext[0], '.xlsx']

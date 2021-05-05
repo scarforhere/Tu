@@ -27,7 +27,7 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
     """
     t = TimeMonitor('\tPlot Time', 25)
 
-    # 构建图像
+    # TODO: Set Size of PNG
     plt.figure(figsize=(18, 6))
 
     s = data['s']
@@ -48,7 +48,7 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
     # l_f4, = plt.plot(x, f4, label='f4')
     # l_f5, = plt.plot(x, f5, label='f5')
 
-    # TODO 设置图标范围
+    # TODO Set Effective Horizontal Axis Range
     plt.xlim((s[num_start] - 0.1, s[num_end] + 0.1))  # 读取有效区间
     # plt.xlim((x[0], x[len_data-1]))               # 读取全部区间
 
@@ -61,7 +61,8 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
                labels=['Fx  -->  Fx_avg={0:8.2f}N'.format(fx_avg).rjust(10),
                        'Fy  -->  Fy_avg={0:8.2f}N'.format(fy_avg).rjust(10),
                        'Fz  -->  Fz_avg={0:8.2f}N'.format(fz_avg).rjust(10)],
-               loc='best')
+               loc='best',  # TODO: Set Location of Legend
+               )
 
     plt.savefig(f"{path.replace('.txt', '')}.png")
 

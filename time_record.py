@@ -9,13 +9,21 @@
 Description : 
 
     Simplified time output
-    t = Time_Monitor("Used Time", 20)
 
-    # # # # # # # #
-    #  code block #
-    # # # # # # # #
 
-    t.show()
+    Example:
+        def test():
+            t = Time_Monitor("Used Time", 20)
+
+            # # # # # # # #
+            #  code block #
+            # # # # # # # #
+
+            t.show()
+
+            return t.trans()
+
+        print(test())
 
 """
 from datetime import datetime
@@ -30,6 +38,10 @@ class TimeMonitor(object):
         self.num = num
 
     def trans(self):
+        """
+        Add this after target code to set end time stamp and create string for print info
+        :return: Time info in str type
+        """
         self.end = datetime.now()
         time_obj = self.end - self.start
         time_str_lst = [f"{self.text}: ".ljust(self.num), f"{time_obj.seconds}s".rjust(5)]
@@ -37,6 +49,9 @@ class TimeMonitor(object):
         return time_str
 
     def show(self):
+        """
+        Add this after target code to set end time stamp and print info
+        """
         self.end = datetime.now()
         time_obj = self.end - self.start
         time_str_lst = [f"{self.text}: ".ljust(self.num), f"{time_obj.seconds}s".rjust(5)]

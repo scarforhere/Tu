@@ -25,7 +25,7 @@ def data_convert(file: str):
     """
     t = TimeMonitor('\tData Convert Time', 25)
 
-    # 读取文件所有行并统计文件行数
+    # read total TXT file and count line's quantity
     with open(file, 'r') as f:
         data_total = f.readlines()
     len_data = len(data_total)
@@ -33,7 +33,7 @@ def data_convert(file: str):
     # used by ProcessSingle
     # print(f"\tLine: {len_data}")
 
-    # 初始化阵列空间
+    # init data space
     s = []
     fx = []
     fy = []
@@ -41,11 +41,11 @@ def data_convert(file: str):
     # f4 = []
     # f5 = []
 
-    # 从文档中读取所有数值
+    # transfer line's data to readable string
     for data_line in data_total:
         data_list = readline_format02(data_line)
 
-        # 为DataFrame构建DataDict
+        # create DataDict for DataFrame
         s.append(data_list[0])
         fx.append(data_list[1])
         fy.append(data_list[2])
@@ -61,23 +61,23 @@ def data_convert(file: str):
             # 'f5': f5
             }
 
-    # 初始化平均值数据字典
+    # init DataDict for data transfer to other methode
     data_avg = {}
-    # 初始化有效值数据字典
+    # init Dict to save info of effective data
     data_effect = {}
 
-    # 平均值起始参数
+    # init Dict to save info of average data
     fx_ref = max(fx) * 0.8
 
-    # 获取效数据起始点和平均值起始点    --->   平均值起始点肯定晚于有效数据起始点出现
+    # --> effective start point must be later than average start point
     flag_num_start = False
     for i in range(len_data):
-        # 捕获有效数据起始点
+        # catch index of effective start point
         if not flag_num_start:
             if abs(fx[i]) >= 20:
                 data_effect['num_start'] = i
                 flag_num_start = True
-        # 捕获平均值起始点
+        # catch index of average start point
         else:
             if abs(fx[i]) >= fx_ref:
                 data_avg['num_start'] = i
@@ -85,15 +85,15 @@ def data_convert(file: str):
             else:
                 continue
 
-    # 获取效数据终止点和平均值终止点    --->   平均值起始点肯定早于有效数据起始点出现
+    # --> average start point must be earlier than effective start point
     flag_num_avg_end = False
     for i in range((len_data - 1), 0, -1):
-        # 捕获平均值终止点
+        # catch index of average start point
         if not flag_num_avg_end:
             if abs(fx[i]) >= fx_ref:
                 data_avg['num_end'] = i
                 flag_num_avg_end = True
-        # 捕获有效数据终止点
+        # catch index of effective end point
         else:
 
             if abs(fx[i]) >= 20:
@@ -102,7 +102,7 @@ def data_convert(file: str):
             else:
                 continue
 
-    # 求稳定平均值
+    # calculate average value for each force
     data_avg['fx'] = mean(list(fx[data_avg['num_start']:data_avg['num_end']]))
     data_avg['fy'] = mean(list(fy[data_avg['num_start']:data_avg['num_end']]))
     data_avg['fz'] = mean(list(fz[data_avg['num_start']:data_avg['num_end']]))

@@ -15,14 +15,14 @@ import multiprocessing
 from get_all_files import get_all_files
 from time_record import TimeMonitor
 from single_process import single_process
+import os
 
-# TODO: Set Path of Target Folder!!!
-path = r"E:\Python_Code\Tu\Data"
+g_path = r'E:\Python_Code\Tu\Data'
 
 
-def main(target_path=None, process=None):
-    if not target_path:
-        global path
+def main(target_path: str = '', process: int = None):
+    if target_path == '':
+        path = os.getcwd()
     else:
         path = target_path
 
@@ -53,4 +53,14 @@ def main(target_path=None, process=None):
 
 
 if __name__ == '__main__':
-    main()
+
+    path = input("\nDefault: Path = Current Folder (Press Enter)\n"
+                 "Set Path of Target Folder:\n")
+
+    try:
+        num = int(input("Default: Process Quantity = 4 (Press Enter)\n"
+                        "Set Proper Process Quantity for ProcessingPool:\n"))
+    except ValueError:
+        num = None
+
+    main(path, num)
