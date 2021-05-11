@@ -22,25 +22,25 @@ g_path = r'E:\Python_Code\Tu\Data'
 
 def main(target_path: str = '', process: int = None):
     if target_path == '':
-        path = os.getcwd()
+        _path = os.getcwd()
     else:
-        path = target_path
+        _path = target_path
 
     if not process:
-        num_pool = 4
+        # TODO: Set Proper Process Number for ProcessingPool!!!
+        num_pool = 5
     else:
         num_pool = process
 
     t_total = TimeMonitor('\nTotal Time')
 
-    # TODO: Set Proper Process Number for ProcessingPool!!!
     pool = multiprocessing.Pool(num_pool)
 
-    path_list = get_all_files(path)
+    path_list = get_all_files(_path)
 
-    for path in path_list:
+    for _path in path_list:
         # 异步执行程序
-        pool.apply_async(func=single_process, args=(path,))
+        pool.apply_async(func=single_process, args=(_path,))
 
     pool.close()
     pool.join()
@@ -58,7 +58,7 @@ if __name__ == '__main__':
                  "Set Path of Target Folder:\n")
 
     try:
-        num = int(input("Default: Process Quantity = 4 (Press Enter)\n"
+        num = int(input("Default: Process Quantity = 5 (Press Enter)\n"
                         "Set Proper Process Quantity for ProcessingPool:\n"))
     except ValueError:
         num = None

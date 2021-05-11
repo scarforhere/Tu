@@ -25,7 +25,11 @@ def single_process(path):
     """
     print(f'Processing: {path}')
     info = InfoPrint(path)
-    data, data_effect, data_avg, line, info.t_convert = data_convert(path)
+    data, data_effect, data_avg, info.line, info.t_convert = data_convert(path)
     info.t_plot = data_plot(path, data, data_effect, data_avg)
     info.t_excel = excel_write(path, data)
     info.show()
+
+if __name__ == '__main__':
+    path=r'E:\Python_Code\Tu\test\V18 T1,8mm 38 0,1 M1.txt'
+    single_process(path)

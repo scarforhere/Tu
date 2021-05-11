@@ -65,5 +65,6 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
                )
 
     plt.savefig(f"{path.replace('.txt', '')}.png")
+    # plt.show()
 
     return t.trans()

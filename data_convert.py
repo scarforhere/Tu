@@ -12,7 +12,7 @@ Description :
 
 """
 from numpy import *
-from readline_format import readline_format02
+from readline_format import readline_format03, readline_format04
 from time_record import TimeMonitor
 
 
@@ -28,6 +28,12 @@ def data_convert(file: str):
     # read total TXT file and count line's quantity
     with open(file, 'r') as f:
         data_total = f.readlines()
+
+        # how many item in a data_line
+        f.seek(0)
+        data_firstline = f.readline()
+        data_itemnum = data_firstline.count(',')
+
     len_data = len(data_total)
 
     # used by ProcessSingle
@@ -43,7 +49,17 @@ def data_convert(file: str):
 
     # transfer line's data to readable string
     for data_line in data_total:
-        data_list = readline_format02(data_line)
+        if data_itemnum == 6:
+            data_list = readline_format04(data_line)
+        elif data_itemnum == 4:
+            data_list = readline_format03(data_line)
+        else:
+            print(f"Error: Data Item Number Wrong\n"
+                  f"Error File: {file}")
+            return
+
+        if data_list is None:
+            break
 
         # create DataDict for DataFrame
         s.append(data_list[0])
@@ -86,18 +102,18 @@ def data_convert(file: str):
                 continue
 
     # --> average start point must be earlier than effective start point
-    flag_num_avg_end = False
+    flag_num_start = False
     for i in range((len_data - 1), 0, -1):
         # catch index of average start point
-        if not flag_num_avg_end:
-            if abs(fx[i]) >= fx_ref:
-                data_avg['num_end'] = i
-                flag_num_avg_end = True
+        if not flag_num_start:
+            if abs(fx[i]) >= 20:
+                data_effect['num_end'] = i
+                flag_num_start = True
         # catch index of effective end point
         else:
 
-            if abs(fx[i]) >= 20:
-                data_effect['num_end'] = i
+            if abs(fx[i]) >= fx_ref:
+                data_avg['num_end'] = i
                 break
             else:
                 continue
