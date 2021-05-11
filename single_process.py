@@ -30,6 +30,7 @@ def single_process(path):
     info.t_excel = excel_write(path, data)
     info.show()
 
+
 if __name__ == '__main__':
-    path=r'E:\Python_Code\Tu\test\V18 T1,8mm 38 0,1 M1.txt'
+    path = r'E:\Python_Code\Tu\test\V18 T1,8mm 38 0,1 M1.txt'
     single_process(path)
