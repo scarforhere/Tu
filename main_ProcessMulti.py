@@ -11,6 +11,9 @@ Description :
     Program runs on Multi Process Lines
 
 """
+
+# TODO: 每次实验数据导入汇总EXCEL
+
 import multiprocessing
 from get_all_files import get_all_files
 from time_record import TimeMonitor
@@ -54,14 +57,14 @@ def main(target_path: str = '', process: int = None):
 
 if __name__ == '__main__':
 
-    path = input("\nDefault: Path = Current Folder (Press Enter)\n"
-                 "Set Path of Target Folder:\n")
-
-    try:
-        num = int(input("Default: Process Quantity = 5 (Press Enter)\n"
-                        "Set Proper Process Quantity for ProcessingPool:\n"))
-    except ValueError:
-        num = None
+    # path = input("\nDefault: Path = Current Folder (Press Enter)\n"
+    #              "Set Path of Target Folder:\n")
+    #
+    # try:
+    #     num = int(input("Default: Process Quantity = 5 (Press Enter)\n"
+    #                     "Set Proper Process Quantity for ProcessingPool:\n"))
+    # except ValueError:
+    #     num = None
 
     # TODO: Set Path of main(target_path, process)
-    main(g_path, num)
+    main(g_path, None)

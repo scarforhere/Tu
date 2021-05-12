@@ -32,5 +32,5 @@ def single_process(path):
 
 
 if __name__ == '__main__':
-    path = r'E:\Python_Code\Tu\test\V18 T1,8mm 38 0,1 M1.txt'
-    single_process(path)
+    _path = r'E:\Python_Code\Tu\Important\Messung Probelm.txt'
+    single_process(_path)

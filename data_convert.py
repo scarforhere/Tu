@@ -14,6 +14,7 @@ Description :
 from numpy import *
 from readline_format import readline_format03, readline_format04
 from time_record import TimeMonitor
+from data_fix import fix_data
 
 
 def data_convert(file: str):
@@ -69,6 +70,10 @@ def data_convert(file: str):
         # f4.append(data_list[4])
         # f5.append(data_list[5])
 
+    # TODO: Fix error caused by sensor
+    if file.find('V') != -1:
+        fx, fy, fz = fix_data(s, fx, fy, fz)
+
     data = {'s': s,
             'fx': fx,
             'fy': fy,
@@ -82,20 +87,21 @@ def data_convert(file: str):
     # init Dict to save info of effective data
     data_effect = {}
 
-    # init Dict to save info of average data
-    fx_ref = max(fx) * 0.8
+    # init Dict to save info of average and effective data
+    fx_avg_ref = max(fx) * 0.8
+    fx_eff_ref = max(fx) * 0.1
 
     # --> effective start point must be later than average start point
     flag_num_start = False
     for i in range(len_data):
         # catch index of effective start point
         if not flag_num_start:
-            if abs(fx[i]) >= 20:
+            if abs(fx[i]) >= fx_eff_ref:
                 data_effect['num_start'] = i
                 flag_num_start = True
         # catch index of average start point
         else:
-            if abs(fx[i]) >= fx_ref:
+            if abs(fx[i]) >= fx_avg_ref:
                 data_avg['num_start'] = i
                 break
             else:
@@ -106,13 +112,13 @@ def data_convert(file: str):
     for i in range((len_data - 1), 0, -1):
         # catch index of average start point
         if not flag_num_start:
-            if abs(fx[i]) >= 20:
+            if abs(fx[i]) >= fx_eff_ref:
                 data_effect['num_end'] = i
                 flag_num_start = True
         # catch index of effective end point
         else:
 
-            if abs(fx[i]) >= fx_ref:
+            if abs(fx[i]) >= fx_avg_ref:
                 data_avg['num_end'] = i
                 break
             else:
@@ -124,5 +130,13 @@ def data_convert(file: str):
     data_avg['fz'] = mean(list(fz[data_avg['num_start']:data_avg['num_end']]))
     # data_avg['f4'] = mean(list(f4[num_avg_start:num_avg_end]))
     # data_avg['f5'] = mean(list(f5[num_avg_start:num_avg_end]))
+
+    # get max and min value of Fx, Fy and Fz in Effective Range
+    data_effect['fx_max'] = max(list(fx[data_avg['num_start']:data_avg['num_end']]))
+    data_effect['fx_min'] = min(list(fx[data_avg['num_start']:data_avg['num_end']]))
+    data_effect['fy_max'] = max(list(fy[data_avg['num_start']:data_avg['num_end']]))
+    data_effect['fy_min'] = min(list(fy[data_avg['num_start']:data_avg['num_end']]))
+    data_effect['fz_max'] = max(list(fz[data_avg['num_start']:data_avg['num_end']]))
+    data_effect['fz_min'] = min(list(fz[data_avg['num_start']:data_avg['num_end']]))
 
     return data, data_effect, data_avg, len_data, t.trans()

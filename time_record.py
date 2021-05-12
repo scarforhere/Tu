@@ -13,7 +13,7 @@ Description :
 
     Example:
         def test():
-            t = Time_Monitor("Used Time", 20)
+            t = TimeMonitor("Used Time", 20)
 
             # # # # # # # #
             #  code block #
