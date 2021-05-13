@@ -10,9 +10,11 @@
 Description : 
 
     Fix the error caused by sensor
+    Determine a file need to be fixed or not
 
 """
 import os
+import re
 import json
 import numpy as np
 from numpy import array
@@ -134,6 +136,19 @@ def fix_data(s: list, fx: list, fy: list, fz: list):
     return fx, fy, fz
 
 
+def determine_data(path):
+    """
+    Determine a file need to be fixed or not
+
+    :param path: Path of Fix_Data.txt
+    :return: True (need to be fixed) or False (no need to be fixed)
+    """
+    if path.rfind('\\2mm\\') != -1:
+        return False
+    else:
+        return True
+
+
 def res_regression(path):
     """
     Check the linear regression's result
@@ -191,5 +206,10 @@ def res_regression(path):
 
 
 if __name__ == '__main__':
-    _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
-    res_regression(_path)
+    # _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
+    # res_regression(_path)
+
+    _path = r'E:\Python_Code\Tu\Data\Trocken\2mm\0,05 75\0,05 75 M1.txt'
+    print(determine_data(_path))
+    _path = r'E:\Python_Code\Tu\Data\Trocdsdfdfsdf0mm 38 0,05 M1.txt'
+    print(determine_data(_path))

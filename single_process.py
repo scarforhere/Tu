@@ -27,7 +27,7 @@ def single_process(path):
     info = InfoPrint(path)
     data, data_effect, data_avg, info.line, info.t_convert = data_convert(path)
     info.t_plot = data_plot(path, data, data_effect, data_avg)
-    info.t_excel = excel_write(path, data)
+    # info.t_excel = excel_write(path, data)
     info.show()
 
 

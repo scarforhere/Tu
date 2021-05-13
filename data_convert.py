@@ -14,7 +14,7 @@ Description :
 from numpy import *
 from readline_format import readline_format03, readline_format04
 from time_record import TimeMonitor
-from data_fix import fix_data
+from data_fix import fix_data,determine_data
 
 
 def data_convert(file: str):
@@ -70,9 +70,10 @@ def data_convert(file: str):
         # f4.append(data_list[4])
         # f5.append(data_list[5])
 
-    # TODO: Fix error caused by sensor
-    if file.find('V') != -1:
+    # determine data need to be fixed or not
+    if determine_data(file):
         fx, fy, fz = fix_data(s, fx, fy, fz)
+        print(f'{file} is fixed')
 
     data = {'s': s,
             'fx': fx,

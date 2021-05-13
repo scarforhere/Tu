@@ -31,7 +31,7 @@ def main(target_path: str = '', process: int = None):
 
     if not process:
         # TODO: Set Proper Process Number for ProcessingPool!!!
-        num_pool = 5
+        num_pool = 6
     else:
         num_pool = process
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     #              "Set Path of Target Folder:\n")
     #
     # try:
-    #     num = int(input("Default: Process Quantity = 5 (Press Enter)\n"
+    #     num = int(input("Default: Process Quantity = 6 (Press Enter)\n"
     #                     "Set Proper Process Quantity for ProcessingPool:\n"))
     # except ValueError:
     #     num = None

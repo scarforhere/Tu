@@ -19,25 +19,15 @@ Description :
 from data_plot import data_plot
 from data_convert import data_convert
 from excel_write import excel_write
-import os
+from get_all_files import get_all_files
 from time_record import TimeMonitor
 
 t_total = TimeMonitor()
 
 path = r"E:\Python_Code\Tu\Data"
-os.chdir(path)
 
-txt_list = []
 
-file_list = os.walk(path)
-
-for dirpath, dirname, filename in file_list:
-    for filename_item in filename:
-        if filename_item.endswith(".txt"):
-            path_full = "".join([dirpath, '\\', filename_item])
-            txt_list.append(path_full)
-        else:
-            continue
+txt_list = get_all_files(path)
 
 for path in txt_list:
     t = TimeMonitor(f'\tSub Time', 25)
