@@ -45,9 +45,9 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
     fz_max_effect = data_effect['fz_max']
     fz_min_effect = data_effect['fz_min']
 
-    fx_avg = data_avg['fx']
-    fy_avg = data_avg['fy']
-    fz_avg = data_avg['fz']
+    fx_avg = data_avg['fx_avg']
+    fy_avg = data_avg['fy_avg']
+    fz_avg = data_avg['fz_avg']
 
     l_f1, = plt.plot(s, fx, label='Fx')
     l_f2, = plt.plot(s, fy, label='Fy')

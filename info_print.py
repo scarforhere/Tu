@@ -28,7 +28,10 @@ class InfoPrint(object):
         print(f'Sub Process Succeed!')
         print(f'\tPath: {self.path}')
         print(f"\tLine: {self.line}")
-        print(self.t_convert)
-        print(self.t_plot)
-        print(self.t_excel)
+        if self.t_convert is not None:
+            print(self.t_convert)
+        if self.t_plot is not None:
+            print(self.t_plot)
+        if self.t_excel is not None:
+            print(self.t_excel)
         self.t.show()

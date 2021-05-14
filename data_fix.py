@@ -106,34 +106,25 @@ def regression(path):
     return a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
 
 
-def fix_data(s: list, fx: list, fy: list, fz: list):
+def fix_data(s_array, fx_array, fy_array, fz_array):
     """
     Fix the error caused by sensor
 
-    :param s: List of time point
-    :param fx: List of Fx point
-    :param fy: List of Fy point
-    :param fz: List of Fz point
+    :param s_array: Array of s point
+    :param fx_array: Array of Fx point
+    :param fy_array: Array of Fy point
+    :param fz_array: Array of Fz point
     :return: fx, fy, fz
     """
     # TODO: Set path of regressions() according to the program
     a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = regression(g_path)
-    len_data = len(s)
-
-    s_array = array(s)
-    fx_array = array(fx)
-    fy_array = array(fy)
-    fz_array = array(fz)
+    len_data = len(s_array)
 
     fx_fixed = fx_array - (a_fx * s_array + array([b_fx for _ in range(len_data)]))
     fy_fixed = fy_array - (a_fy * s_array + array([b_fy for _ in range(len_data)]))
     fz_fixed = fz_array - (a_fz * s_array + array([b_fz for _ in range(len_data)]))
 
-    fx = list(fx_fixed)
-    fy = list(fy_fixed)
-    fz = list(fz_fixed)
-
-    return fx, fy, fz
+    return fx_fixed, fy_fixed, fz_fixed
 
 
 def determine_data(path):
@@ -143,7 +134,7 @@ def determine_data(path):
     :param path: Path of Fix_Data.txt
     :return: True (need to be fixed) or False (no need to be fixed)
     """
-    if path.rfind('\\2mm\\') != -1:
+    if path.rfind('T2mm') != -1:
         return False
     else:
         return True
@@ -206,10 +197,10 @@ def res_regression(path):
 
 
 if __name__ == '__main__':
-    # _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
-    # res_regression(_path)
+    _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
+    res_regression(_path)
 
-    _path = r'E:\Python_Code\Tu\Data\Trocken\2mm\0,05 75\0,05 75 M1.txt'
-    print(determine_data(_path))
-    _path = r'E:\Python_Code\Tu\Data\Trocdsdfdfsdf0mm 38 0,05 M1.txt'
-    print(determine_data(_path))
+    # _path = r'E:\Python_Code\Tu_Data\Trocken\T2mm V1-V8 -1\V1 T2mm 38 0,05 M1.txt'
+    # print(determine_data(_path))
+    # _path = r'E:\Python_Code\Tu\Data\Trocdsdfdfsdf0mm 38 0,05 M1.txt'
+    # print(determine_data(_path))

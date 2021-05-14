@@ -11,16 +11,14 @@ Description :
     Program runs on Multi Process Lines
 
 """
-
-# TODO: 每次实验数据导入汇总EXCEL
-
+import os
 import multiprocessing
 from get_all_files import get_all_files
 from time_record import TimeMonitor
 from single_process import single_process
-import os
+from summary import Summary
 
-g_path = r'E:\Python_Code\Tu\Data'
+g_path = r'E:\Python_Code\Tu\Data_Short'
 
 
 def main(target_path: str = '', process: int = None):
@@ -41,13 +39,14 @@ def main(target_path: str = '', process: int = None):
 
     path_list = get_all_files(_path)
 
-    for _path in path_list:
+    for each_path in path_list:
         # 异步执行程序
-        pool.apply_async(func=single_process, args=(_path,))
+        pool.apply_async(func=single_process, args=(each_path,))
 
     pool.close()
     pool.join()
 
+    Summary.to_excel()
     t_total.show()
 
     print('------------------------------')
@@ -56,7 +55,6 @@ def main(target_path: str = '', process: int = None):
 
 
 if __name__ == '__main__':
-
     # path = input("\nDefault: Path = Current Folder (Press Enter)\n"
     #              "Set Path of Target Folder:\n")
     #

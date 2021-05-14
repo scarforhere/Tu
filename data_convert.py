@@ -14,7 +14,7 @@ Description :
 from numpy import *
 from readline_format import readline_format03, readline_format04
 from time_record import TimeMonitor
-from data_fix import fix_data,determine_data
+from data_fix import fix_data, determine_data
 
 
 def data_convert(file: str):
@@ -70,10 +70,15 @@ def data_convert(file: str):
         # f4.append(data_list[4])
         # f5.append(data_list[5])
 
+    s_array = array(s)
+    fx_array = array(fx)
+    fy_array = array(fy)
+    fz_array = array(fz)
+
     # determine data need to be fixed or not
     if determine_data(file):
-        fx, fy, fz = fix_data(s, fx, fy, fz)
-        print(f'{file} is fixed')
+        fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array)
+        # print(f'{file} is fixed')
 
     data = {'s': s,
             'fx': fx,
@@ -125,19 +130,28 @@ def data_convert(file: str):
             else:
                 continue
 
+    # get max and min value of Fx, Fy and Fz in Effective Range
+    data_effect['fx_max'] = max(fx[data_avg['num_start']:data_avg['num_end']])
+    data_effect['fx_min'] = min(fx[data_avg['num_start']:data_avg['num_end']])
+    data_effect['fy_max'] = max(fy[data_avg['num_start']:data_avg['num_end']])
+    data_effect['fy_min'] = min(fy[data_avg['num_start']:data_avg['num_end']])
+    data_effect['fz_max'] = max(fz[data_avg['num_start']:data_avg['num_end']])
+    data_effect['fz_min'] = min(fz[data_avg['num_start']:data_avg['num_end']])
+
     # calculate average value for each force
-    data_avg['fx'] = mean(list(fx[data_avg['num_start']:data_avg['num_end']]))
-    data_avg['fy'] = mean(list(fy[data_avg['num_start']:data_avg['num_end']]))
-    data_avg['fz'] = mean(list(fz[data_avg['num_start']:data_avg['num_end']]))
+    data_avg['fx_avg'] = mean(list(fx[data_avg['num_start']:data_avg['num_end']]))
+    data_avg['fy_avg'] = mean(list(fy[data_avg['num_start']:data_avg['num_end']]))
+    data_avg['fz_avg'] = mean(list(fz[data_avg['num_start']:data_avg['num_end']]))
     # data_avg['f4'] = mean(list(f4[num_avg_start:num_avg_end]))
     # data_avg['f5'] = mean(list(f5[num_avg_start:num_avg_end]))
 
-    # get max and min value of Fx, Fy and Fz in Effective Range
-    data_effect['fx_max'] = max(list(fx[data_avg['num_start']:data_avg['num_end']]))
-    data_effect['fx_min'] = min(list(fx[data_avg['num_start']:data_avg['num_end']]))
-    data_effect['fy_max'] = max(list(fy[data_avg['num_start']:data_avg['num_end']]))
-    data_effect['fy_min'] = min(list(fy[data_avg['num_start']:data_avg['num_end']]))
-    data_effect['fz_max'] = max(list(fz[data_avg['num_start']:data_avg['num_end']]))
-    data_effect['fz_min'] = min(list(fz[data_avg['num_start']:data_avg['num_end']]))
+    # Calculate Sum F for every time point
+    fsum_array = (fx_array ** 2 + fy_array ** 2 + fz_array ** 2) ** 0.5
+    data_sum = {
+        'fsum': fsum_array[data_avg['num_start']:data_avg['num_end']],
+        'fsum_max': fsum_array[data_avg['num_start']:data_avg['num_end']].max(),
+        'fsum_min': fsum_array[data_avg['num_start']:data_avg['num_end']].min(),
+        'fsum_avg': mean(fsum_array[data_avg['num_start']:data_avg['num_end']])
+    }
 
-    return data, data_effect, data_avg, len_data, t.trans()
+    return data, data_effect, data_avg, data_sum, len_data, t.trans()
