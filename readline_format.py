@@ -134,3 +134,55 @@ def readline_format04(data_line):
         data_list.append(data_item)
 
     return data_list
+
+
+def readline_format04(data_line):
+    """
+    Convert data of single line from String to readable Tuple\n
+    Target num = 6
+    Use Regular Expression
+
+    :param data_line: Fata of single line
+    :return: None(illegal data) or List of data
+    """
+    if data_line == '\n':
+        return
+    # replace ',' with '.'  Fucking Silly German Format
+    data_line = data_line.replace(",", ".")
+
+    # Regular Expression Rule
+    re_g = re.compile('(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\n')
+    data_line = re_g.search(data_line)
+
+    # convert List of substring to List of float number
+    data_list = []
+    for i in range(1, 5):
+        data_item = float(data_line.group(i))
+        data_list.append(data_item)
+
+    return data_list
+
+
+def readline_format05(data_line):
+    """
+    Convert data of single line from String to readable Tuple\n
+    Target num = 6
+    Use Regular Expression
+    Spec for T2mm V1-V8 -1\V2 T2mm 38 0,1 M1.txt
+
+    :param data_line: Fata of single line
+    :return: None(illegal data) or List of data
+    """
+    if data_line == '\n':
+        return
+    # replace ',' with '.'  Fucking Silly German Format
+    data_line = data_line.replace(",", ".")
+
+    data_list = re.findall('"(\S+)"', data_line)
+    for num, item in enumerate(data_list):
+        # solve situation with 2 '.'
+        if get_count(item, ".") == 2:
+            item = item.rpartition('.')
+            data_list[num] = ''.join([item[0], item[2]])
+        data_list[num] = float(data_list[num])
+    return data_list

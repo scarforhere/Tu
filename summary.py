@@ -13,14 +13,13 @@ Description :
     Write in Parameter-1.xlsx
 
 """
+import json
 import os
 import re
-import json
-import numpy as np
 import pandas as pd
 
 # TODO: Set path for Result_Summary.xlsx
-g_set_target_path = ''.join([os.getcwd(), r'\Data_Short'])
+g_set_target_path = ''.join([os.getcwd(), r'\Data'])
 
 
 class Summary(object):
@@ -38,8 +37,7 @@ class Summary(object):
         instance = super().__new__(cls)
         return instance
 
-    def __init__(self, path, data_effect, data_avg, data_sum):
-        self.aaa = 'bbb'
+    def __init__(self, path, data_effect, data_avg, data_sum, amplitude_99):
         self.dict_summary = {'path': path,
                              'Spanflächen_tiefe': None,
                              'Spanflächen_länge': None,
@@ -59,7 +57,12 @@ class Summary(object):
                              'Fz_min': data_effect['fz_min'],
                              'Schnittkraft': data_sum['fsum_avg'],
                              'Schnittkraft_max': data_sum['fsum_max'],
-                             'Schnittkraft_min': data_sum['fsum_min']}
+                             'Schnittkraft_min': data_sum['fsum_min'],
+                             'Amplitude_Fx': amplitude_99['6sigma_fx'],
+                             'Amplitude_Fy': amplitude_99['6sigma_fy'],
+                             'Amplitude_Fz': amplitude_99['6sigma_fz'],
+                             'Amplitude_Schnittkraft': amplitude_99['6sigma_fsum']}
+
         self.__set_value()
         self.__check_init_txt()
         self.__json_write()
@@ -105,6 +108,10 @@ class Summary(object):
                       'Schnittkraft': [],
                       'Schnittkraft_max': [],
                       'Schnittkraft_min': [],
+                      'Amplitude_Fx': [],
+                      'Amplitude_Fy': [],
+                      'Amplitude_Fz': [],
+                      'Amplitude_Schnittkraft': []
                       }
 
         # Append value for DataFrame
@@ -113,7 +120,6 @@ class Summary(object):
             for key in data_line_keys:
                 if key != 'path':
                     excel_dict[key].append(data_line[key])
-
 
         # Create Dataframe
         df = pd.DataFrame(excel_dict)
@@ -131,7 +137,7 @@ class Summary(object):
 
         # Add Table Style
         column_settings = [{'header': column} for column in df.columns]
-        worksheet.add_table(0, 0, max_row, max_col - 1, {'style': 'Table Style Medium 4','columns': column_settings})
+        worksheet.add_table(0, 0, max_row, max_col - 1, {'style': 'Table Style Medium 4', 'columns': column_settings})
 
         # Set the column width and format.
         rank_format = workbook.add_format({'align': 'center'})
@@ -145,6 +151,9 @@ class Summary(object):
         worksheet.set_column("H:P", 12, num_format)
         worksheet.set_column("Q:Q", 15, num_format)
         worksheet.set_column("R:S", 19, num_format)
+        worksheet.set_column("T:V", 16, num_format)
+        worksheet.set_column("T:V", 17, num_format)
+        worksheet.set_column("W:W", 25, num_format)
 
         # # Can not use with Table_Style  in the same time
         # worksheet.autofilter(0, 0, max_row, max_col - 1)
@@ -179,10 +188,12 @@ if __name__ == '__main__':
 
     _data_effect = {'fx_max': 11, 'fx_min': 12, 'fy_max': 13, 'fy_min': 14, 'fz_max': 15, 'fz_min': 16}
     _data_avg = {'fx_avg': 21, 'fy_avg': 22, 'fz_avg': 23}
-
+    amplitude_99 = {'6sigma_fx': 217329.15937076055, '6sigma_fy': 10734.24652204412, '6sigma_fz': 572699.0424957989,
+                    '6sigma_fsum': 36744.06981425831}
     g_set_target_path = r'E:\Python_Code\Tu\Data'
     Summary.pr()
-    sum1 = Summary(r'E:\Python_Code\Tu_Data\Token\T1,4mm\V49 T1,4mm 38 0,05 M1.txt', _data_effect, _data_avg, _data_sum)
+    sum1 = Summary(r'E:\Python_Code\Tu_Data\Token\T1,4mm\V49 T1,4mm 38 0,05 M1.txt', _data_effect, _data_avg, _data_sum,
+                   amplitude_99)
     sum2 = Summary(r'E:\Python_Code\Tu_Data\Trocken\T1,4mm\V49 T1,4mm 38 0,05 M2.txt', _data_effect, _data_avg,
-                   _data_sum)
+                   _data_sum, amplitude_99)
     Summary.to_excel()

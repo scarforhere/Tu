@@ -18,7 +18,7 @@ from time_record import TimeMonitor
 from single_process import single_process
 from summary import Summary
 
-g_path = r'E:\Python_Code\Tu\Data_Short'
+g_path = r'E:\Python_Code\Tu\Data'
 
 
 def main(target_path: str = '', process: int = None):
@@ -29,7 +29,7 @@ def main(target_path: str = '', process: int = None):
 
     if not process:
         # TODO: Set Proper Process Number for ProcessingPool!!!
-        num_pool = 6
+        num_pool = 8
     else:
         num_pool = process
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     #              "Set Path of Target Folder:\n")
     #
     # try:
-    #     num = int(input("Default: Process Quantity = 6 (Press Enter)\n"
+    #     num = int(input("Default: Process Quantity = 8 (Press Enter)\n"
     #                     "Set Proper Process Quantity for ProcessingPool:\n"))
     # except ValueError:
     #     num = None

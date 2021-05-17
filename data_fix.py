@@ -14,7 +14,6 @@ Description :
 
 """
 import os
-import re
 import json
 import numpy as np
 from numpy import array

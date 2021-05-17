@@ -17,6 +17,7 @@ from data_plot import data_plot
 from excel_write import excel_write
 from summary import Summary
 
+
 def single_process(path):
     """
     Operation for every TXT file
@@ -25,14 +26,15 @@ def single_process(path):
     """
     print(f'Processing: {path}')
     info = InfoPrint(path)
-    data, data_effect, data_avg, data_sum, info.line, info.t_convert = data_convert(path)
+    data, data_effect, data_avg, data_sum, amplitude_99, info.line, info.t_convert = data_convert(path)
     info.t_plot = data_plot(path, data, data_effect, data_avg)
-    info.t_excel = excel_write(path, data)
-    Summary(path,data_effect, data_avg, data_sum)
+    info.t_excel = excel_write(path, data, data_effect)
+    Summary(path, data_effect, data_avg, data_sum, amplitude_99)
 
     info.show()
 
 
 if __name__ == '__main__':
-    _path = r'E:\Python_Code\Tu\Important\Messung Probelm.txt'
-    single_process(_path)
+    path = r'E:\Python_Code\Tu\Data\Trocken\T2mm V1-V8 -1\V2 T2mm 38 0,1 M2.txt'
+    single_process(path)
+    Summary.to_excel()
