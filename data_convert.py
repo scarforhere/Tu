@@ -81,8 +81,9 @@ def data_convert(file: str):
         fz_array = array(fz)
 
         # determine data need to be fixed or not
-        if determine_data(file):
-            fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array)
+        fix_stat,calibration_file=determine_data(file)
+        if fix_stat:
+            fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array,calibration_file)
             # print(f'{file} is fixed')
 
         # init DataDict for data transfer to other methode

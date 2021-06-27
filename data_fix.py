@@ -23,14 +23,15 @@ from readline_format import readline_format03
 g_path = r'E:\Python_Code\Tu\Important'
 
 
-def read_res_regression(path):
+def read_res_regression(path, calibration_filename):
     """
     Read regression's parameters from Fix_Data.txt
 
+    :param calibration_filename: Name of TXT for calibration
     :param path: Path of Fix_Data.txt
     :return: Values of a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
     """
-    with open(''.join([path, r'\Fix_Data.txt']), "r") as f:
+    with open(''.join([path, r'\Fix_Data ', calibration_filename]), "r") as f:
         _data = f.read()
         fix_data_dict = json.loads(_data)
 
@@ -44,11 +45,12 @@ def read_res_regression(path):
     return a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
 
 
-def write_res_regression(path):
+def write_res_regression(path, calibration_filename):
     """
     Calculate the linear regression's parameters according to Messungs_Problem.tet
     Write regression's parameters into Fix_Data.txt
 
+    :param calibration_filename: Name of TXT for calibration
     :param path: Path of Fix_Data.txt
     :return: Values of a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
     """
@@ -78,17 +80,18 @@ def write_res_regression(path):
         'a_fz': a_fz, 'b_fz': b_fz
     }
 
-    with open(''.join([path, r'\Fix_Data.txt']), 'w') as f:
+    with open(''.join([path, r'\Fix_Data ', calibration_filename]), 'w') as f:
         _data = json.dumps(fix_data_dict)
         f.write(_data)
 
     return a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
 
 
-def regression(path):
+def regression(path, calibration_filename):
     """
     Get the values of linear regression's parameters
 
+    :param calibration_filename: Name of TXT for calibration
     :param path: Path of Fix_Data.txt
     :return: a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
     """
@@ -98,17 +101,18 @@ def regression(path):
         if item == 'Fix_Data.txt':
             flag = True
     if flag:
-        a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = read_res_regression(path)
+        a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = read_res_regression(path, calibration_filename)
     else:
-        a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = write_res_regression(path)
+        a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = write_res_regression(path, calibration_filename)
 
     return a_fx, b_fx, a_fy, b_fy, a_fz, b_fz
 
 
-def fix_data(s_array, fx_array, fy_array, fz_array):
+def fix_data(s_array, fx_array, fy_array, fz_array, calibration_filename):
     """
     Fix the error caused by sensor
 
+    :param calibration_filename: Name of TXT for calibration
     :param s_array: Array of s point
     :param fx_array: Array of Fx point
     :param fy_array: Array of Fy point
@@ -116,7 +120,7 @@ def fix_data(s_array, fx_array, fy_array, fz_array):
     :return: fx, fy, fz
     """
     # TODO: Set path of regressions() according to the program
-    a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = regression(g_path)
+    a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = regression(g_path, calibration_filename)
     len_data = len(s_array)
 
     fx_fixed = fx_array - (a_fx * s_array + array([b_fx for _ in range(len_data)]))
@@ -133,23 +137,30 @@ def determine_data(path):
     :param path: Path of Fix_Data.txt
     :return: True (need to be fixed) or False (no need to be fixed)
     """
+    calibration_filenamename = None
+    if path.rfind('Trocken') != -1:
+        calibration_filenamename = 'Trocken.txt'
+    if path.rfind('Menze') != -1:
+        calibration_filenamename = 'Menze.txt'
+
     if path.rfind('T2mm') != -1:
-        return False
+        return False, calibration_filenamename
     else:
-        return True
+        return True, calibration_filenamename
 
 
-def res_regression(path):
+def res_regression(path, calibration_filename):
     """
     Check the linear regression's result
 
+    :param calibration_filename: Name of TXT for calibration
     :param path: Path of target TXT
     """
     from data_convert import data_convert
     import matplotlib.pyplot as plt
     import os
 
-    data, data_effect, data_avg, _, _ = data_convert(path)
+    data, data_effect, data_avg, _, _, _, _ = data_convert(path)
 
     plt.figure(figsize=(18, 6))
 
@@ -165,7 +176,7 @@ def res_regression(path):
     s = np.linspace(0, 31.624969, 1012000)
     s_array = array(s)
 
-    a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = regression(r'E:\Python_Code\Tu\Important')
+    a_fx, b_fx, a_fy, b_fy, a_fz, b_fz = regression(r'E:\Python_Code\Tu\Important', calibration_filename)
     fx_r = a_fx * s_array + array([b_fx for _ in range(1012000)])
     fy_r = a_fy * s_array + array([b_fy for _ in range(1012000)])
     fz_r = a_fz * s_array + array([b_fz for _ in range(1012000)])
@@ -196,8 +207,17 @@ def res_regression(path):
 
 
 if __name__ == '__main__':
-    _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
-    res_regression(_path)
+    calibration_filename = 'Menze.txt'
+    # calibration_filename = 'Trocken.txt'
+    # _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
+    _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf 20210624.txt'
+    # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf.txt'
+    # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf2.txt'
+    # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Test.txt'
+    # res_regression(_path, calibration_filename)
+    # _path = r'E:\Python_Code\Tu\Important\Experiment_2'
+    # _path = r'E:\Python_Code\Tu\Important'
+    # write_res_regression(_path)
 
     # _path = r'E:\Python_Code\Tu_Data\Trocken\T2mm V1-V8 -1\V1 T2mm 38 0,05 M1.txt'
     # print(determine_data(_path))

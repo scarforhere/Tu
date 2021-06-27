@@ -88,6 +88,8 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
         plt.savefig(f"{path.replace('.txt', '')}.png")
         # plt.show()
 
+        plt.close()
+
         return t.trans()
 
     except Exception as e_info:
