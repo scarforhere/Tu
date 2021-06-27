@@ -33,6 +33,7 @@ def excel_write(path: str, data_dict: dict, data_effect: dict):
                       'Fx [N]': data_dict['fx'][data_effect['num_start']:data_effect['num_end']],
                       'Fy [N]': data_dict['fy'][data_effect['num_start']:data_effect['num_end']],
                       'Fz [N]': data_dict['fz'][data_effect['num_start']:data_effect['num_end']],
+                      'u = Fx/Fz' : data_dict['mu'][data_effect['num_start']:data_effect['num_end']],
                       # 'F4 [N]': data_dict['f4'],
                       # 'F5 [N]': data_dict['f5']
                       }

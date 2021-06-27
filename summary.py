@@ -37,7 +37,7 @@ class Summary(object):
         instance = super().__new__(cls)
         return instance
 
-    def __init__(self, path, data_effect, data_avg, data_sum, amplitude_99):
+    def __init__(self, path, data_effect, data_avg, data_sum, amplitude_99, mu_avg):
         self.dict_summary = {'path': path,
                              'Spanflächen_tiefe': None,
                              'Spanflächen_länge': None,
@@ -61,7 +61,9 @@ class Summary(object):
                              'Amplitude_Fx': amplitude_99['6sigma_fx'],
                              'Amplitude_Fy': amplitude_99['6sigma_fy'],
                              'Amplitude_Fz': amplitude_99['6sigma_fz'],
-                             'Amplitude_Schnittkraft': amplitude_99['6sigma_fsum']}
+                             'Amplitude_Schnittkraft': amplitude_99['6sigma_fsum'],
+                             'mu_avg':mu_avg
+                             }
 
         self.__set_value()
         self.__check_init_txt()
@@ -77,7 +79,7 @@ class Summary(object):
         self.dict_summary['Spanflächen_länge'] = str(sub_result[0][1])
         self.dict_summary['h'] = str(result[3])
         self.dict_summary['vc'] = str(result[2])
-        self.dict_summary['Versuch'] = str(result[0])
+        self.dict_summary['Versuch'] = str(result[0][1:])
         if sub_result[0] == 'N':
             self.dict_summary['KSS'] = '1'
         else:
@@ -111,7 +113,8 @@ class Summary(object):
                       'Amplitude_Fx': [],
                       'Amplitude_Fy': [],
                       'Amplitude_Fz': [],
-                      'Amplitude_Schnittkraft': []
+                      'Amplitude_Schnittkraft': [],
+                      'mu_avg': []
                       }
 
         # Append value for DataFrame
@@ -142,6 +145,7 @@ class Summary(object):
         # Set the column width and format.
         rank_format = workbook.add_format({'align': 'center'})
         num_format = workbook.add_format({'align': 'center', 'num_format': '#,##0.00'})
+        mu_format = workbook.add_format({'align': 'center', 'num_format': '#,##0.0000'})
         worksheet.set_column("A:B", 21, rank_format)
         worksheet.set_column("C:C", 8, rank_format)
         worksheet.set_column("D:D", 7, rank_format)
@@ -154,6 +158,7 @@ class Summary(object):
         worksheet.set_column("T:V", 16, num_format)
         worksheet.set_column("T:V", 17, num_format)
         worksheet.set_column("W:W", 25, num_format)
+        worksheet.set_column("X:X", 12, mu_format)
 
         # # Can not use with Table_Style  in the same time
         # worksheet.autofilter(0, 0, max_row, max_col - 1)

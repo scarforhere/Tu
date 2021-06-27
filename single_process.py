@@ -26,15 +26,15 @@ def single_process(path):
     """
     print(f'Processing: {path}')
     info = InfoPrint(path)
-    data, data_effect, data_avg, data_sum, amplitude_99, info.line, info.t_convert = data_convert(path)
+    data, data_effect, data_avg, data_sum, amplitude_99, info.line, mu_avg, info.t_convert = data_convert(path)
     info.t_plot = data_plot(path, data, data_effect, data_avg)
     info.t_excel = excel_write(path, data, data_effect)
-    Summary(path, data_effect, data_avg, data_sum, amplitude_99)
+    Summary(path, data_effect, data_avg, data_sum, amplitude_99, mu_avg)
 
     info.show()
 
 
 if __name__ == '__main__':
-    path = r'E:\Python_Code\Tu\Data\Trocken\T2mm V1-V8 -1\V2 T2mm 38 0,1 M2.txt'
+    path = r'E:\Python_Code\Tu\Data\Trocken\T2mm V1-V8 -1\V4 T2mm 50 0,1 M2.txt'
     single_process(path)
     Summary.to_excel()

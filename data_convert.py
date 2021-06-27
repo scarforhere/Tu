@@ -86,6 +86,9 @@ def data_convert(file: str):
             fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array,calibration_file)
             # print(f'{file} is fixed')
 
+        # Calculate mu = Fx / Fz
+        mu=fx_array/fz_array
+
         # init DataDict for data transfer to other methode
         data_avg = {}
         # init Dict to save info of effective data
@@ -111,6 +114,10 @@ def data_convert(file: str):
                 else:
                     continue
 
+
+
+
+
         # --> average start point must be earlier than effective start point
         flag_num_start = False
         for i in range((len_data - 1), 0, -1):
@@ -132,6 +139,7 @@ def data_convert(file: str):
                 'fx': fx,
                 'fy': fy,
                 'fz': fz,
+                'mu':mu,
                 # 'f4': f4,
                 # 'f5': f5
                 }
@@ -165,10 +173,13 @@ def data_convert(file: str):
             '6sigma_fx': np.std(fx_array[data_avg['num_start']:data_avg['num_end']], ddof=1) * 6,
             '6sigma_fy': np.std(fy_array[data_avg['num_start']:data_avg['num_end']], ddof=1) * 6,
             '6sigma_fz': np.std(fz_array[data_avg['num_start']:data_avg['num_end']], ddof=1) * 6,
-            '6sigma_fsum': np.std(data_sum['fsum'], ddof=1) * 6,
+            '6sigma_fsum': np.std(data_sum['fsum'], ddof=1) * 3,
         }
 
-        return data, data_effect, data_avg, data_sum, amplitude_99, len_data, t.trans()
+        # Calculate mu_avg
+        mu_avg=mean(list(mu[data_avg['num_start']:data_avg['num_end']]))
+
+        return data, data_effect, data_avg, data_sum, amplitude_99, len_data, mu_avg, t.trans()
 
     except Exception as e_info:
         print('Data Convert Failed!!!')

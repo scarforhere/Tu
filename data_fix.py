@@ -160,7 +160,7 @@ def res_regression(path, calibration_filename):
     import matplotlib.pyplot as plt
     import os
 
-    data, data_effect, data_avg, _, _, _, _ = data_convert(path)
+    data, data_effect, data_avg, _, _, _, _, _ = data_convert(path)
 
     plt.figure(figsize=(18, 6))
 
