@@ -75,16 +75,24 @@ class Summary(object):
         result = re.findall('\S+', path)
         sub_result = re.findall('([A-Z])(\S+)mm', result[1])
 
-        self.dict_summary['Spanflächen_tiefe'] = str(sub_result[0][0])
-        self.dict_summary['Spanflächen_länge'] = str(sub_result[0][1])
-        self.dict_summary['h'] = str(result[3])
-        self.dict_summary['vc'] = str(result[2])
-        self.dict_summary['Versuch'] = str(result[0][1:])
-        if sub_result[0] == 'N':
-            self.dict_summary['KSS'] = '1'
-        else:
-            self.dict_summary['KSS'] = '0'
-        self.dict_summary['M'] = str(result[4][1])
+        try:
+            self.dict_summary['Spanflächen_tiefe'] = str(sub_result[0][0])
+        except:
+            path=' '.join([result[0],'XX.Xmm X.XX XX MX'])
+            result = re.findall('\S+', path)
+            sub_result = re.findall('([A-Z])(\S+)mm', result[1])
+            print(sub_result)
+            self.dict_summary['Spanflächen_tiefe'] = str(sub_result[0][0])
+        finally:
+            self.dict_summary['Spanflächen_länge'] = str(sub_result[0][1])
+            self.dict_summary['h'] = str(result[3])
+            self.dict_summary['vc'] = str(result[2])
+            self.dict_summary['Versuch'] = str(result[0][1:])
+            if sub_result[0] == 'N':
+                self.dict_summary['KSS'] = '1'
+            else:
+                self.dict_summary['KSS'] = '0'
+            self.dict_summary['M'] = str(result[4][1])
 
     @classmethod
     def to_excel(cls):

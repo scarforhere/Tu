@@ -24,17 +24,24 @@ def single_process(path):
 
     :param path: Path of target TXT file
     """
-    print(f'Processing: {path}')
-    info = InfoPrint(path)
-    data, data_effect, data_avg, data_sum, amplitude_99, info.line, mu_avg, info.t_convert = data_convert(path)
-    info.t_plot = data_plot(path, data, data_effect, data_avg)
-    info.t_excel = excel_write(path, data, data_effect)
-    Summary(path, data_effect, data_avg, data_sum, amplitude_99, mu_avg)
+    try:
+        print(f'Processing: {path}')
+        info = InfoPrint(path)
+        data, data_effect, data_avg, data_sum, amplitude_99, info.line, mu_avg, info.t_convert = data_convert(path)
+        # info.t_plot = data_plot(path, data, data_effect, data_avg)
+        # info.t_excel = excel_write(path, data, data_effect)
+        Summary(path, data_effect, data_avg, data_sum, amplitude_99, mu_avg)
 
-    info.show()
+        info.show()
+
+    except Exception as e :
+        print(f'Fail: {path}\n\t{e}')
 
 
 if __name__ == '__main__':
-    path = r'E:\Python_Code\Tu\Data\Trocken\T2mm V1-V8 -1\V4 T2mm 50 0,1 M2.txt'
-    single_process(path)
+    path = []
+    path.append(r'E:\Python_Code\Tu\Data\Menze\T0.5 V161-168\V165 T0.5mm 0.05 75 M1.txt')
+
+    for path_item in path:
+        single_process(path_item)
     Summary.to_excel()

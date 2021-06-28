@@ -8,24 +8,24 @@
 -------------------------------------------------
 Description : 
 
-    Print info with under format:
+    Add .txt in the end of the file
 
 """
 import os
+
+
 def test():
     path = os.getcwd()
     files_walk_list = os.walk(path)
 
     # Put all folders and files into a List
-    files_list = []
-
     for dirpath, dirname, filename in files_walk_list:
         for item in filename:
             file_origin_path = ''.join([dirpath, '\\', item])
-            file_new_path = ''.join([dirpath, '\\', item,'.txt'])
+            file_new_path = ''.join([dirpath, '\\', item, '.txt'])
 
-            with open(file_origin_path,'rb') as fr:
-                with open(file_new_path,'wb') as fw:
+            with open(file_origin_path, 'rb') as fr:
+                with open(file_new_path, 'wb') as fw:
                     fw.write(fr.read())
 
             os.remove(file_origin_path)
@@ -36,7 +36,8 @@ def test():
     print("Rename Succeeded!".center(30))
     print('------------------------------')
 
+
 if __name__ == '__main__':
-    _path=r'E:\Python_Code\Tu\Data\Menze'
+    _path = r'E:\Python_Code\Tu\Data\Menze'
     os.chdir(_path)
     test()
