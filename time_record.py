@@ -12,7 +12,7 @@ Description :
 
 
     Example:
-        def test():
+        def test1():
             t = TimeMonitor("Used Time", 20)
 
             # # # # # # # #
@@ -23,7 +23,7 @@ Description :
 
             return t.trans()
 
-        print(test())
+        print(test1())
 
 """
 from datetime import datetime

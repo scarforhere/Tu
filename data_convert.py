@@ -81,13 +81,13 @@ def data_convert(file: str):
         fz_array = array(fz)
 
         # determine data need to be fixed or not
-        fix_stat,calibration_file=determine_data(file)
+        fix_stat, calibration_file = determine_data(file)
         if fix_stat:
-            fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array,calibration_file)
+            fx, fy, fz = fix_data(s_array, fx_array, fy_array, fz_array, calibration_file)
             # print(f'{file} is fixed')
 
         # Calculate mu = Fx / Fz
-        mu=fx_array/fz_array
+        mu = fx_array / fz_array
 
         # init DataDict for data transfer to other methode
         data_avg = {}
@@ -114,10 +114,6 @@ def data_convert(file: str):
                 else:
                     continue
 
-
-
-
-
         # --> average start point must be earlier than effective start point
         flag_num_start = False
         for i in range((len_data - 1), 0, -1):
@@ -139,7 +135,7 @@ def data_convert(file: str):
                 'fx': fx,
                 'fy': fy,
                 'fz': fz,
-                'mu':mu,
+                'mu': mu,
                 # 'f4': f4,
                 # 'f5': f5
                 }
@@ -159,6 +155,14 @@ def data_convert(file: str):
         # data_avg['f4'] = mean(list(f4[num_avg_start:num_avg_end]))
         # data_avg['f5'] = mean(list(f5[num_avg_start:num_avg_end]))
 
+        # calculate median value for each force
+        data_median = dict()
+        data_median['fx_median'] = median(list(fx[data_avg['num_start']:data_avg['num_end']]))
+        data_median['fy_median'] = median(list(fy[data_avg['num_start']:data_avg['num_end']]))
+        data_median['fz_median'] = median(list(fz[data_avg['num_start']:data_avg['num_end']]))
+        # data_median['f4_median'] = mean(list(f4[num_avg_start:num_avg_end]))
+        # data_median['f5_median'] = mean(list(f5[num_avg_start:num_avg_end]))
+
         # Calculate Sum F for every time point
         fsum_array = (fx_array ** 2 + fy_array ** 2 + fz_array ** 2) ** 0.5
         data_sum = {
@@ -177,9 +181,9 @@ def data_convert(file: str):
         }
 
         # Calculate mu_avg
-        mu_avg=mean(list(mu[data_avg['num_start']:data_avg['num_end']]))
+        mu_avg = mean(list(mu[data_avg['num_start']:data_avg['num_end']]))
 
-        return data, data_effect, data_avg, data_sum, amplitude_99, len_data, mu_avg, t.trans()
+        return data, data_effect, data_avg, data_median, data_sum, amplitude_99, len_data, mu_avg, t.trans()
 
     except Exception as e_info:
         print('Data Convert Failed!!!')
