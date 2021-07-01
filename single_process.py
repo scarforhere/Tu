@@ -29,8 +29,8 @@ def single_process(path):
         info = InfoPrint(path)
         data, data_effect, data_avg, data_median, data_sum, amplitude_99, info.line, mu_avg, info.t_convert = \
             data_convert(path)
-        # info.t_plot = data_plot(path, data, data_effect, data_avg)
-        # info.t_excel = excel_write(path, data, data_effect)
+        info.t_plot = data_plot(path, data, data_effect, data_avg)
+        info.t_excel = excel_write(path, data, data_effect)
         Summary(path, data_effect, data_avg, data_median, data_sum, amplitude_99, mu_avg)
 
         info.show()

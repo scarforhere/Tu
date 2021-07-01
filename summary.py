@@ -19,7 +19,7 @@ import re
 import pandas as pd
 from get_all_files import get_all_files
 
-# TODO: Set path for Result_Summary.xlsx
+# TODO: Set Path For Result_Summary.xlsx
 g_set_excel_path = ''.join([os.getcwd(), r'\Data'])
 
 

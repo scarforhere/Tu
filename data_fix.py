@@ -19,7 +19,7 @@ import numpy as np
 from numpy import array
 from readline_format import readline_format03
 
-# TODO: Set Path of Messung_Problem.txt
+# TODO: Set Path Of Messung_Problem.txt
 g_path = r'E:\Python_Code\Tu\Important'
 
 
@@ -207,14 +207,15 @@ def res_regression(path, calibration_filename):
 
 
 if __name__ == '__main__':
-    calibration_filename = 'Menze.txt'
-    # calibration_filename = 'Trocken.txt'
+    _calibration_filename = 'Menze.txt'
+    # _calibration_filename = 'Trocken.txt'
     # _path = r'E:\Python_Code\Tu\Important\Messung Problem.txt'
     _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf 20210624.txt'
     # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf.txt'
     # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Leerlauf2.txt'
     # _path = r'E:\Python_Code\Tu\Important\Experiment_2\Test.txt'
-    # res_regression(_path, calibration_filename)
+
+    # res_regression(_path, _calibration_filename)
     # _path = r'E:\Python_Code\Tu\Important\Experiment_2'
     # _path = r'E:\Python_Code\Tu\Important'
     # write_res_regression(_path)

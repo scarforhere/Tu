@@ -18,8 +18,8 @@ from time_record import TimeMonitor
 from single_process import single_process
 from summary import Summary
 
+# TODO: Set Target Folder Of Data
 g_path = r'E:\Python_Code\Tu\Data'
-
 
 def main(target_path: str = '', process: int = None):
     if target_path == '':
@@ -40,7 +40,6 @@ def main(target_path: str = '', process: int = None):
     path_list = get_all_files(_path)
 
     for each_path in path_list:
-        # 异步执行程序
         pool.apply_async(func=single_process, args=(each_path,))
 
     pool.close()
