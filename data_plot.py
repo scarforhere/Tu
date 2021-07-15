@@ -53,6 +53,9 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
         l_f1, = plt.plot(s, fx, label='Fx')
         l_f2, = plt.plot(s, fy, label='Fy')
         l_f3, = plt.plot(s, fz, label='Fz')
+        l_fx_avg, = plt.plot(s, [fx_avg for _ in s], label='Fx_avg')
+        l_fy_avg, = plt.plot(s, [fy_avg for _ in s], label='Fy_avg')
+        l_fz_avg, = plt.plot(s, [fz_avg for _ in s], label='Fz_avg')
         # l_f4, = plt.plot(x, f4, label='f4')
         # l_f5, = plt.plot(x, f5, label='f5')
 
@@ -65,20 +68,21 @@ def data_plot(path: str, data: dict, data_effect: dict, data_avg: dict):
 
         plt.title(f"{os.path.basename(path)}".replace('.txt', ''))
 
-        lg = plt.legend(handles=[l_f1, l_f2, l_f3],
+        lg = plt.legend(handles=[l_f1, l_f2, l_f3, l_fx_avg, l_fy_avg, l_fz_avg],
                         labels=[
-                            'Fx  -->  Fx_avg=' + '{0:6.2f}N'.format(fx_avg).rjust(8) +
-                            '  Fx_max=' + '{0:6.2f}N'.format(fx_max_effect).rjust(8) +
+                            'Fx  -->  Fx_max=' + '{0:6.2f}N'.format(fx_max_effect).rjust(8) +
                             '  Fx_min=' + '{0:6.2f}N'.format(fx_min_effect).rjust(8),
 
-                            'Fy  -->  Fy_avg=' + '{0:6.2f}N'.format(fy_avg).rjust(8) +
-                            '  Fy_max=' + '{0:6.2f}N'.format(fy_max_effect).rjust(8) +
+                            'Fy  -->  Fy_max=' + '{0:6.2f}N'.format(fy_max_effect).rjust(8) +
                             '  Fy_min=' + '{0:6.2f}N'.format(fy_min_effect).rjust(8),
 
-                            'Fz  -->  Fz_avg=' + '{0:6.2f}N'.format(fz_avg).rjust(8) +
-                            '  Fz_max=' + '{0:6.2f}N'.format(fz_max_effect).rjust(8) +
-                            '  Fz_min=' + '{0:6.2f}N'.format(fz_min_effect).rjust(8)
-                            ],
+                            'Fz  -->  Fz_max=' + '{0:6.2f}N'.format(fz_max_effect).rjust(8) +
+                            '  Fz_min=' + '{0:6.2f}N'.format(fz_min_effect).rjust(8),
+
+                            'Fx_avg = {0:6.2f}N'.format(fx_avg).rjust(8),
+                            'Fy_avg = {0:6.2f}N'.format(fy_avg).rjust(8),
+                            'Fz_avg = {0:6.2f}N'.format(fz_avg).rjust(8),
+                        ],
                         loc='best',  # TODO: Set Location of Legend
                         )
 
